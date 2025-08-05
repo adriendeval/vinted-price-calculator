@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,7 +24,6 @@
 </head>
 <body class="bg-vinted-secondary min-h-screen">
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <!-- Header -->
         <header class="text-center mb-12">
             <div class="flex items-center justify-center mb-4">
                 <i class="fas fa-calculator text-vinted-primary text-4xl mr-3"></i>
@@ -36,10 +34,8 @@
             </p>
         </header>
 
-        <!-- Main Calculator -->
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Input Section -->
                 <div>
                     <h2 class="text-2xl font-bold text-vinted-dark mb-6 flex items-center">
                         <i class="fas fa-euro-sign text-vinted-primary mr-2"></i>
@@ -121,7 +117,6 @@
                     </div>
                 </div>
 
-                <!-- Results Section -->
                 <div>
                     <h2 class="text-2xl font-bold text-vinted-dark mb-6 flex items-center">
                         <i class="fas fa-chart-line text-vinted-primary mr-2"></i>
@@ -185,7 +180,6 @@
             </div>
         </div>
 
-        <!-- How it works -->
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
             <h2 class="text-2xl font-bold text-vinted-dark mb-6 flex items-center">
                 <i class="fas fa-question-circle text-vinted-primary mr-2"></i>
@@ -225,9 +219,8 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <footer class="text-center text-gray-500 text-sm mt-12 pb-6">
-            <p>© 2023 Calculateur de Prix Vinted - Outil non officiel</p>
+            <p>© 2025 Calculateur de Prix Vinted - Outil non officiel</p>
             <p class="mt-1">Les frais de transaction peuvent varier selon les pays et les conditions de Vinted</p>
         </footer>
     </div>
@@ -253,20 +246,16 @@
             const detailFixedFee = document.getElementById('detailFixedFee');
             const detailTotalFees = document.getElementById('detailTotalFees');
             
-            // Fonction de calcul
             function calculatePrice() {
                 const desiredPrice = parseFloat(desiredPriceInput.value) || 0;
                 const percentageFee = parseFloat(percentageFeeInput.value) || 0;
                 const fixedFee = parseFloat(fixedFeeInput.value) || 0;
                 
-                // Calcul du prix à fixer
-                // Formula: sellingPrice = (desiredPrice - fixedFee) / (1 + percentageFee/100)
                 const sellingPrice = (desiredPrice - fixedFee) / (1 + percentageFee/100);
                 const percentageAmount = sellingPrice * (percentageFee/100);
                 const vintedFees = percentageAmount + fixedFee;
                 const receivedAmount = sellingPrice - vintedFees;
                 
-                // Mise à jour de l'interface
                 sellingPriceElement.textContent = sellingPrice.toFixed(2);
                 vintedFeesElement.textContent = vintedFees.toFixed(2);
                 receivedAmountElement.textContent = receivedAmount.toFixed(2);
@@ -282,10 +271,8 @@
                 detailTotalFees.textContent = vintedFees.toFixed(2);
             }
             
-            // Calcul initial
             calculatePrice();
             
-            // Écouteurs d'événements
             calculateBtn.addEventListener('click', calculatePrice);
             desiredPriceInput.addEventListener('input', calculatePrice);
             percentageFeeInput.addEventListener('input', calculatePrice);
@@ -294,4 +281,3 @@
     </script>
 </body>
 </html>
-```
