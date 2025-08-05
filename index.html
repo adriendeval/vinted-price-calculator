@@ -1,0 +1,297 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Prix Vinted</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vinted: {
+                            primary: '#00b779',
+                            secondary: '#f3f4f6',
+                            dark: '#1e293b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-vinted-secondary min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-calculator text-vinted-primary text-4xl mr-3"></i>
+                <h1 class="text-4xl font-bold text-vinted-dark">Calculateur de Prix Vinted</h1>
+            </div>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Calculez le prix exact à fixer pour que l'acheteur paie le montant souhaité
+            </p>
+        </header>
+
+        <!-- Main Calculator -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Input Section -->
+                <div>
+                    <h2 class="text-2xl font-bold text-vinted-dark mb-6 flex items-center">
+                        <i class="fas fa-euro-sign text-vinted-primary mr-2"></i>
+                        Paramètres
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Montant souhaité par l'acheteur (€)
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="number" 
+                                    id="desiredPrice" 
+                                    step="0.01"
+                                    min="0"
+                                    value="25.00"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-vinted-primary focus:outline-none text-lg"
+                                    placeholder="25.00"
+                                >
+                                <span class="absolute right-4 top-4 text-gray-500 text-lg">€</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Le montant exact que vous voulez que l'acheteur paie
+                            </p>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Pourcentage de commission (%)
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="number" 
+                                    id="percentageFee" 
+                                    step="0.1"
+                                    min="0"
+                                    max="100"
+                                    value="5"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-vinted-primary focus:outline-none text-lg"
+                                    placeholder="5"
+                                >
+                                <span class="absolute right-4 top-4 text-gray-500 text-lg">%</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Pourcentage prélevé par Vinted (généralement 5%)
+                            </p>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">
+                                Frais fixes (€)
+                            </label>
+                            <div class="relative">
+                                <input 
+                                    type="number" 
+                                    id="fixedFee" 
+                                    step="0.01"
+                                    min="0"
+                                    value="0.70"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-vinted-primary focus:outline-none text-lg"
+                                    placeholder="0.70"
+                                >
+                                <span class="absolute right-4 top-4 text-gray-500 text-lg">€</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Frais fixes supplémentaires (généralement 0.70€)
+                            </p>
+                        </div>
+
+                        <button 
+                            id="calculateBtn"
+                            class="w-full bg-vinted-primary hover:bg-vinted-primary/90 text-white font-bold py-4 px-6 rounded-xl transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
+                        >
+                            <i class="fas fa-calculator mr-2"></i>
+                            Calculer le prix à fixer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div>
+                    <h2 class="text-2xl font-bold text-vinted-dark mb-6 flex items-center">
+                        <i class="fas fa-chart-line text-vinted-primary mr-2"></i>
+                        Résultats
+                    </h2>
+
+                    <div class="space-y-6">
+                        <div class="bg-vinted-secondary rounded-xl p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">Prix à fixer sur Vinted</span>
+                                <span class="text-sm bg-vinted-primary text-white px-2 py-1 rounded">RÉSULTAT</span>
+                            </div>
+                            <div class="text-3xl font-bold text-vinted-dark">
+                                <span id="sellingPrice">23.55</span> €
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Le prix que vous devez afficher sur Vinted
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 rounded-xl p-4">
+                                <div class="text-blue-800 font-medium mb-1">Frais Vinted</div>
+                                <div class="text-xl font-bold text-blue-600">
+                                    <span id="vintedFees">1.45</span> €
+                                </div>
+                                <div class="text-xs text-blue-600 mt-1">
+                                    <span id="feesBreakdown">5% + 0.70€</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-green-50 rounded-xl p-4">
+                                <div class="text-green-800 font-medium mb-1">Montant reçu</div>
+                                <div class="text-xl font-bold text-green-600">
+                                    <span id="receivedAmount">22.10</span> €
+                                </div>
+                                <div class="text-xs text-green-600 mt-1">
+                                    Après déduction des frais
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-xl p-4">
+                            <h3 class="font-bold text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-info-circle text-gray-500 mr-2"></i>
+                                Détail du calcul
+                            </h3>
+                            <div class="text-sm text-gray-600 space-y-1">
+                                <p>Prix affiché : <span class="font-medium" id="detailSellingPrice">23.55</span> €</p>
+                                <p>Frais Vinted : <span class="font-medium" id="detailVintedFees">1.45</span> €</p>
+                                <ul class="list-disc list-inside ml-2 mt-1">
+                                    <li><span id="detailPercentageFee">5</span>% de <span id="detailSellingPrice2">23.55</span> € = <span id="detailPercentageAmount">1.18</span> €</li>
+                                    <li>Frais fixes = <span id="detailFixedFee">0.70</span> €</li>
+                                    <li>Total frais = <span id="detailTotalFees">1.45</span> €</li>
+                                </ul>
+                                <p class="pt-2 border-t border-gray-200">Montant perçu : <span class="font-bold" id="detailReceivedAmount">22.10</span> €</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-vinted-dark mb-6 flex items-center">
+                <i class="fas fa-question-circle text-vinted-primary mr-2"></i>
+                Comment ça marche ?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-vinted-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-vinted-primary font-bold text-xl">1</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-vinted-dark mb-2">Entrez le montant souhaité</h3>
+                    <p class="text-gray-600">
+                        Indiquez le prix exact que vous voulez que l'acheteur paie
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-vinted-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-vinted-primary font-bold text-xl">2</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-vinted-dark mb-2">Calculez automatiquement</h3>
+                    <p class="text-gray-600">
+                        L'outil calcule le prix à afficher en tenant compte des frais
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-vinted-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-vinted-primary font-bold text-xl">3</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-vinted-dark mb-2">Fixez votre prix</h3>
+                    <p class="text-gray-600">
+                        Affichez le prix calculé pour obtenir exactement le montant souhaité
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm mt-12 pb-6">
+            <p>© 2023 Calculateur de Prix Vinted - Outil non officiel</p>
+            <p class="mt-1">Les frais de transaction peuvent varier selon les pays et les conditions de Vinted</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const desiredPriceInput = document.getElementById('desiredPrice');
+            const percentageFeeInput = document.getElementById('percentageFee');
+            const fixedFeeInput = document.getElementById('fixedFee');
+            const calculateBtn = document.getElementById('calculateBtn');
+            
+            const sellingPriceElement = document.getElementById('sellingPrice');
+            const vintedFeesElement = document.getElementById('vintedFees');
+            const receivedAmountElement = document.getElementById('receivedAmount');
+            const feesBreakdownElement = document.getElementById('feesBreakdown');
+            
+            const detailSellingPrice = document.getElementById('detailSellingPrice');
+            const detailSellingPrice2 = document.getElementById('detailSellingPrice2');
+            const detailVintedFees = document.getElementById('detailVintedFees');
+            const detailReceivedAmount = document.getElementById('detailReceivedAmount');
+            const detailPercentageFee = document.getElementById('detailPercentageFee');
+            const detailPercentageAmount = document.getElementById('detailPercentageAmount');
+            const detailFixedFee = document.getElementById('detailFixedFee');
+            const detailTotalFees = document.getElementById('detailTotalFees');
+            
+            // Fonction de calcul
+            function calculatePrice() {
+                const desiredPrice = parseFloat(desiredPriceInput.value) || 0;
+                const percentageFee = parseFloat(percentageFeeInput.value) || 0;
+                const fixedFee = parseFloat(fixedFeeInput.value) || 0;
+                
+                // Calcul du prix à fixer
+                // Formula: sellingPrice = (desiredPrice - fixedFee) / (1 + percentageFee/100)
+                const sellingPrice = (desiredPrice - fixedFee) / (1 + percentageFee/100);
+                const percentageAmount = sellingPrice * (percentageFee/100);
+                const vintedFees = percentageAmount + fixedFee;
+                const receivedAmount = sellingPrice - vintedFees;
+                
+                // Mise à jour de l'interface
+                sellingPriceElement.textContent = sellingPrice.toFixed(2);
+                vintedFeesElement.textContent = vintedFees.toFixed(2);
+                receivedAmountElement.textContent = receivedAmount.toFixed(2);
+                feesBreakdownElement.textContent = `${percentageFee}% + ${fixedFee.toFixed(2)}€`;
+                
+                detailSellingPrice.textContent = sellingPrice.toFixed(2);
+                detailSellingPrice2.textContent = sellingPrice.toFixed(2);
+                detailVintedFees.textContent = vintedFees.toFixed(2);
+                detailReceivedAmount.textContent = receivedAmount.toFixed(2);
+                detailPercentageFee.textContent = percentageFee.toFixed(1);
+                detailPercentageAmount.textContent = percentageAmount.toFixed(2);
+                detailFixedFee.textContent = fixedFee.toFixed(2);
+                detailTotalFees.textContent = vintedFees.toFixed(2);
+            }
+            
+            // Calcul initial
+            calculatePrice();
+            
+            // Écouteurs d'événements
+            calculateBtn.addEventListener('click', calculatePrice);
+            desiredPriceInput.addEventListener('input', calculatePrice);
+            percentageFeeInput.addEventListener('input', calculatePrice);
+            fixedFeeInput.addEventListener('input', calculatePrice);
+        });
+    </script>
+</body>
+</html>
+```
